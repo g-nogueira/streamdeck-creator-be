@@ -1,0 +1,6 @@
+﻿services:
+  streamdeckbuddy.api:
+    image: streamdeckbuddy.api
+    build:
+      context: .
+      dockerfile: StreamDeckBuddy.API/Dockerfile
