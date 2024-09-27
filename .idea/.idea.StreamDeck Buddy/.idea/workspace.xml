@@ -9,33 +9,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeck Buddy.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Collection.cs" afterDir="false" />
+    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="Initial Commit">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="autoShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 4
 }]]></component>
@@ -50,6 +43,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    ".NET Launch Settings Profile.StreamDeckBuddy.API: IIS Express.executor": "Debug",
+    ".NET Launch Settings Profile.StreamDeckBuddy.API: http.executor": "Debug",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -62,7 +57,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.StreamDeckBuddy.API: IIS Express">
+  <component name="RunManager" selected=".NET Launch Settings Profile.StreamDeckBuddy.API: http">
     <configuration name="StreamDeckBuddy.API: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
@@ -155,16 +150,28 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1727474173581</updated>
-      <workItem from="1727474175931" duration="1620000" />
+      <workItem from="1727474175931" duration="2650000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <option name="closed" value="true" />
+      <created>1727476284047</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727476284047</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
   </component>
 </project>

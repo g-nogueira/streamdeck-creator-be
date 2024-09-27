@@ -4,64 +4,50 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using StreamDeckBuddy.Models;
+using StreamDeckBuddy.Services;
 
 public static class IconEndpoints
 {
-    public static void MapIconEndpoints(this IEndpointRouteBuilder endpoints, List<Icon> icons)
+    public static void MapIconEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/icons", () => { return icons; })
+        endpoints.MapGet("/icons", (IFileSystemIconService iconService) => iconService.GetIcons())
             .WithName("GetIcons")
             .WithOpenApi();
 
-        endpoints.MapGet("/icons/search", (string searchTerm) =>
+        endpoints.MapGet("/icons/search", (string searchTerm, IFileSystemIconService iconService) =>
         {
+            var icons = iconService.GetIcons();
             var filteredIcons = icons.Where(i => i.Label.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
             return Results.Ok(filteredIcons);
         });
 
-        endpoints.MapPost("/icons", (Icon icon) =>
+        endpoints.MapPost("/icons", (Icon icon, IFileSystemIconService iconService) =>
         {
-            icon.Id = icons.Count > 0 ? icons.Max(i => i.Id) + 1 : 1;
-            icons.Add(icon);
+            iconService.AddIcon(icon);
             return Results.Created($"/icons/{icon.Id}", icon);
         })
         .WithName("CreateIcon")
         .WithOpenApi();
 
-        endpoints.MapGet("/icons/{id}", (int id) =>
+        endpoints.MapGet("/icons/{id}", (int id, IFileSystemIconService iconService) =>
         {
-            var icon = icons.FirstOrDefault(i => i.Id == id);
+            var icon = iconService.GetIconById(id);
             return icon is not null ? Results.Ok(icon) : Results.NotFound();
         })
         .WithName("GetIconById")
         .WithOpenApi();
 
-        endpoints.MapPut("/icons/{id}", (int id, Icon updatedIcon) =>
+        endpoints.MapPut("/icons/{id}", (int id, Icon updatedIcon, IFileSystemIconService iconService) =>
         {
-            var icon = icons.FirstOrDefault(i => i.Id == id);
-            if (icon is null)
-            {
-                return Results.NotFound();
-            }
-
-            icon.Glyph = updatedIcon.Glyph;
-            icon.Label = updatedIcon.Label;
-            icon.Color = updatedIcon.Color;
-            icon.CollectionId = updatedIcon.CollectionId;
-            return Results.Ok(icon);
+            iconService.UpdateIcon(id, updatedIcon);
+            return Results.Ok(updatedIcon);
         })
         .WithName("UpdateIcon")
         .WithOpenApi();
 
-        endpoints.MapDelete("/icons/{id}", (int id) =>
+        endpoints.MapDelete("/icons/{id}", (int id, IFileSystemIconService iconService) =>
         {
-            var icon = icons.FirstOrDefault(i => i.Id == id);
-            if (icon is null)
-            {
-                return Results.NotFound();
-            }
-
-            icons.Remove(icon);
+            iconService.DeleteIcon(id);
             return Results.NoContent();
         })
         .WithName("DeleteIcon")

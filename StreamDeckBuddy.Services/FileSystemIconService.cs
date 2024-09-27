@@ -2,9 +2,11 @@ namespace StreamDeckBuddy.Services;
 
 using StreamDeckBuddy.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 
-public class FileSystemIconService : IIconService
+public class FileSystemIconService : IFileSystemIconService
 {
     private readonly List<Icon> _icons = new();
 
@@ -36,6 +38,24 @@ public class FileSystemIconService : IIconService
         if (icon != null)
         {
             _icons.Remove(icon);
+        }
+    }
+
+    public void IndexIcons(string rootPath)
+    {
+        var directories = Directory.GetDirectories(rootPath, "*", SearchOption.AllDirectories);
+        foreach (var directory in directories)
+        {
+            var iconsFilePath = Path.Combine(directory, "icons.json");
+            if (File.Exists(iconsFilePath))
+            {
+                var json = File.ReadAllText(iconsFilePath);
+                var icons = JsonSerializer.Deserialize<List<Icon>>(json);
+                if (icons != null)
+                {
+                    _icons.AddRange(icons);
+                }
+            }
         }
     }
 }

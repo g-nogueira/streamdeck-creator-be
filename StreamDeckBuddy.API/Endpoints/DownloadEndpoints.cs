@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using StreamDeckBuddy.Models;
+using StreamDeckBuddy.Services;
 using System.IO;
 using System.Threading.Tasks;
 
 public static class DownloadEndpoints
 {
-    public static void MapDownloadEndpoints(this IEndpointRouteBuilder endpoints, List<Icon> icons, List<Collection> collections)
+    public static void MapDownloadEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/download/icon/{id}", (int id) =>
+        endpoints.MapGet("/download/icon/{id}", (int id, IIconService iconService) =>
         {
-            var icon = icons.FirstOrDefault(i => i.Id == id);
+            var icon = iconService.GetIconById(id);
             if (icon is null)
             {
                 return Results.NotFound();
@@ -26,9 +27,9 @@ public static class DownloadEndpoints
         .WithName("DownloadIcon")
         .WithOpenApi();
 
-        endpoints.MapGet("/download/collection/{id}", async (int id) =>
+        endpoints.MapGet("/download/collection/{id}", async (int id, ICollectionService collectionService) =>
         {
-            var collection = collections.FirstOrDefault(c => c.Id == id);
+            var collection = collectionService.GetCollectionById(id);
             if (collection is null)
             {
                 return Results.NotFound();

@@ -5,13 +5,12 @@ using StreamDeckBuddy.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IFileSystemIconService, FileSystemIconService>();
+builder.Services.AddSingleton<ICollectionService, FileSystemCollectionService>();
 
 var app = builder.Build();
-var icons = new List<Icon>();
-var collections = new List<Collection>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,8 +21,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapIconEndpoints(icons);
-app.MapCollectionEndpoints(collections);
-app.MapDownloadEndpoints(icons, collections);
+app.MapIconEndpoints();
+app.MapCollectionEndpoints();
+app.MapDownloadEndpoints();
 
 app.Run();
