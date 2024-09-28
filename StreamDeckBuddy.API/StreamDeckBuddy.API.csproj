@@ -13,14 +13,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StreamDeckBuddy.Models\StreamDeckBuddy.Models.csproj" />
-      <ProjectReference Include="..\StreamDeckBuddy.Services\StreamDeckBuddy.Services.csproj" />
+        <ProjectReference Include="..\StreamDeckBuddy.Models\StreamDeckBuddy.Models.csproj"/>
+        <ProjectReference Include="..\StreamDeckBuddy.Services\StreamDeckBuddy.Services.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="DTOs\"/>
     </ItemGroup>
 
 </Project>

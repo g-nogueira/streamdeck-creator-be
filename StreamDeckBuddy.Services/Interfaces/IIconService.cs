@@ -10,4 +10,5 @@ public interface IIconService
     void AddIcon(Icon icon);
     void UpdateIcon(int id, Icon updatedIcon);
     void DeleteIcon(int id);
+    void IndexIcons(string rootPath);
 }

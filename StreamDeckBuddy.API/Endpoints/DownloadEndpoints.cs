@@ -1,63 +1,46 @@
-namespace StreamDeckBuddy.API.Endpoints;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using StreamDeckBuddy.Models;
+using System.IO.Compression;
 using StreamDeckBuddy.Services;
-using System.IO;
-using System.Threading.Tasks;
+
+namespace StreamDeckBuddy.API.Endpoints;
 
 public static class DownloadEndpoints
 {
     public static void MapDownloadEndpoints(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/download/icon/{id}", (int id, IIconService iconService) =>
-        {
-            var icon = iconService.GetIconById(id);
-            if (icon is null)
             {
-                return Results.NotFound();
-            }
+                var icon = iconService.GetIconById(id);
+                if (icon is null || !File.Exists(icon.FullPath)) return Results.NotFound();
 
-            // Generate icon image (placeholder logic)
-            byte[] imageBytes = GenerateIconImage(icon);
-            return Results.File(imageBytes, "image/png", $"icon_{icon.Id}.png");
-        })
-        .WithName("DownloadIcon")
-        .WithOpenApi();
+                var fileBytes = File.ReadAllBytes(icon.FullPath);
+                return Results.File(fileBytes, "image/svg+xml", Path.GetFileName(icon.FullPath));
+            })
+            .WithName("DownloadIcon")
+            .WithOpenApi();
 
         endpoints.MapGet("/download/collection/{id}", async (int id, ICollectionService collectionService) =>
-        {
-            var collection = collectionService.GetCollectionById(id);
-            if (collection is null)
             {
-                return Results.NotFound();
-            }
+                var collection = collectionService.GetCollectionById(id);
+                if (collection is null) return Results.NotFound();
 
-            using var memoryStream = new MemoryStream();
-            using (var zipArchive = new System.IO.Compression.ZipArchive(memoryStream, System.IO.Compression.ZipArchiveMode.Create, true))
-            {
-                foreach (var icon in collection.Icons)
+                using var memoryStream = new MemoryStream();
+                using (var zipArchive = new ZipArchive(memoryStream,
+                           ZipArchiveMode.Create, true))
                 {
-                    // Generate icon image (placeholder logic)
-                    byte[] imageBytes = GenerateIconImage(icon);
-                    var zipEntry = zipArchive.CreateEntry($"icon_{icon.Id}.png");
-                    using var zipEntryStream = zipEntry.Open();
-                    await zipEntryStream.WriteAsync(imageBytes, 0, imageBytes.Length);
+                    foreach (var icon in collection.Icons)
+                        if (File.Exists(icon.FullPath))
+                        {
+                            var fileBytes = File.ReadAllBytes(icon.FullPath);
+                            var zipEntry = zipArchive.CreateEntry(Path.GetFileName(icon.FullPath));
+                            using var zipEntryStream = zipEntry.Open();
+                            await zipEntryStream.WriteAsync(fileBytes, 0, fileBytes.Length);
+                        }
                 }
-            }
 
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            return Results.File(memoryStream, "application/zip", $"collection_{collection.Id}.zip");
-        })
-        .WithName("DownloadCollection")
-        .WithOpenApi();
-    }
-
-    private static byte[] GenerateIconImage(Icon icon)
-    {
-        // Placeholder logic for generating an icon image
-        return new byte[0];
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return Results.File(memoryStream, "application/zip", $"collection_{collection.Id}.zip");
+            })
+            .WithName("DownloadCollection")
+            .WithOpenApi();
     }
 }
