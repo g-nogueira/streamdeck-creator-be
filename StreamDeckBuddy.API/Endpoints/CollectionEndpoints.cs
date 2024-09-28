@@ -1,7 +1,8 @@
+namespace StreamDeckBuddy.API.Endpoints;
+
+using StreamDeckBuddy.API.DTOs;
 using StreamDeckBuddy.Models;
 using StreamDeckBuddy.Services;
-
-namespace StreamDeckBuddy.API.Endpoints;
 
 public static class CollectionEndpoints
 {
@@ -13,13 +14,28 @@ public static class CollectionEndpoints
 
         endpoints.MapPost("/collections", (Collection collection, ICollectionService collectionService) =>
             {
-                collectionService.AddCollection(collection);
-                return Results.Created($"/collections/{collection.Id}", collection);
+                var id = collectionService.AddCollection(collection);
+                return Results.Created($"/collections/{id}", collection);
             })
-            .WithName("CreateCollection")
+            .WithName("AddCollection")
+            .WithOpenApi();
+        
+        endpoints.MapPut("/collections/{collectionId:guid}/icons", (Guid collectionId, AddIconToCollectionDto stylizedIcon, ICollectionService collectionService, IIconService iconService) =>
+            {
+                var icon = iconService.GetIconById(stylizedIcon.IconId);
+                
+                if (icon is null)
+                    return Results.NotFound($"Icon with ID {stylizedIcon.IconId} not found");
+
+                var domain = stylizedIcon.ToDomain(icon);
+                
+                collectionService.AddIconToCollection(collectionId, domain);
+                return Results.Created($"/collections/{collectionId}/icons/{stylizedIcon.Id}", stylizedIcon);
+            })
+            .WithName("AddIconToCollection")
             .WithOpenApi();
 
-        endpoints.MapGet("/collections/{id}", (Guid id, ICollectionService collectionService) =>
+        endpoints.MapGet("/collections/{id:guid}", (Guid id, ICollectionService collectionService) =>
             {
                 var collection = collectionService.GetCollectionById(id);
                 return collection is not null ? Results.Ok(collection) : Results.NotFound();
@@ -27,7 +43,7 @@ public static class CollectionEndpoints
             .WithName("GetCollectionById")
             .WithOpenApi();
 
-        endpoints.MapPut("/collections/{id}",
+        endpoints.MapPut("/collections/{id:guid}",
                 (Guid id, Collection updatedCollection, ICollectionService collectionService) =>
                 {
                     collectionService.UpdateCollection(id, updatedCollection);
@@ -36,7 +52,7 @@ public static class CollectionEndpoints
             .WithName("UpdateCollection")
             .WithOpenApi();
 
-        endpoints.MapDelete("/collections/{id}", (Guid id, ICollectionService collectionService) =>
+        endpoints.MapDelete("/collections/{id:guid}", (Guid id, ICollectionService collectionService) =>
             {
                 collectionService.DeleteCollection(id);
                 return Results.NoContent();

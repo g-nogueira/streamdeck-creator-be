@@ -3,17 +3,18 @@ using StreamDeckBuddy.Services;
 
 namespace StreamDeckBuddy.API.Endpoints;
 
+using System.Linq;
+
 public static class IconEndpoints
 {
     public static void MapIconEndpoints(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/icons", (IIconService iconService) =>
             {
-                var icons = iconService.GetIcons().GetRange(0, 500);
+                var icons = iconService.GetIcons().Take(500);
                 var iconFiles = icons.Select(icon => new
                 {
                     icon.Id,
-                    icon.Glyph,
                     icon.Label,
                     Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
                 });
@@ -30,7 +31,6 @@ public static class IconEndpoints
                 var iconFiles = filteredIcons.Select(icon => new
                 {
                     icon.Id,
-                    icon.Glyph,
                     icon.Label,
                     Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
                 });

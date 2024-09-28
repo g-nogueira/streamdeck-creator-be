@@ -15,7 +15,7 @@ using System.Text.Json;
 
 public class StreamDeckIconPackIconService : IIconService
 {
-    private readonly List<Icon> _icons = new();
+    private readonly List<Icon> _icons = [];
     private readonly string _jsonFilePath;
     private readonly ILogger<StreamDeckIconPackIconService> _logger;
 
@@ -27,8 +27,8 @@ public class StreamDeckIconPackIconService : IIconService
     /// <exception cref="InvalidOperationException"></exception>
     public StreamDeckIconPackIconService(IConfiguration configuration, ILogger<StreamDeckIconPackIconService> logger)
     {
-        var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:IconsFilePath"] ?? throw new InvalidOperationException());
-        var indexFilePath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsIndexedFile"] ?? throw new InvalidOperationException());
+        var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsPath"] ?? throw new InvalidOperationException());
+        var indexFilePath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsIndexedFilePath"] ?? throw new InvalidOperationException());
         _jsonFilePath = Path.Combine(indexFilePath, "indexed_icons.json");
         _logger = logger;
 
@@ -43,7 +43,7 @@ public class StreamDeckIconPackIconService : IIconService
         }
     }
 
-    public List<Icon> GetIcons()
+    public ICollection<Icon> GetIcons()
     {
         _logger.LogInformation("Returning {Count} icons", _icons.Count);
         return _icons;
@@ -110,6 +110,12 @@ public class StreamDeckIconPackIconService : IIconService
     {
         try
         {
+            var directory = Path.GetDirectoryName(_jsonFilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             var json = JsonSerializer.Serialize(_icons);
             File.WriteAllText(_jsonFilePath, json);
             _logger.LogInformation("Successfully saved indexed items to {FilePath}", _jsonFilePath);
@@ -126,11 +132,10 @@ public class StreamDeckIconPackIconService : IIconService
         {
             var json = File.ReadAllText(_jsonFilePath);
             var icons = JsonSerializer.Deserialize<List<Icon>>(json);
-            if (icons != null)
-            {
-                _icons.AddRange(icons);
-                _logger.LogInformation("Successfully loaded indexed items from {FilePath}", _jsonFilePath);
-            }
+            if (icons == null) return;
+
+            _icons.AddRange(icons);
+            _logger.LogInformation("Successfully loaded indexed items from {FilePath}", _jsonFilePath);
         }
         catch (Exception ex)
         {

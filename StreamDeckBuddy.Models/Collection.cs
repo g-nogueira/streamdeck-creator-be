@@ -5,10 +5,9 @@ namespace StreamDeckBuddy.Models;
 
 public class Collection
 {
-    public Guid Id { get; set; }
-    public required string Name { get; set; }                // Name of the collection
-    public List<Icon> Icons { get; set; } = [];  // List of icons in the collection
     public CollectionId Id { get; set; }
+    public string? Name { get; set; } 
+    public List<StylizedIcon> Icons { get; set; } = [];
 }
 
 [JsonConverter(typeof(CollectionIdJsonConverter))]

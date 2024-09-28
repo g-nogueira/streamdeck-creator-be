@@ -12,14 +12,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="feat: add initial support for StreamDeck icon packs">
+    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="chore: use struct instead of Guid for Ids">
+      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/DTOs/AddIconToCollectionDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Converters/StylizedIconIdJsonConverter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/StylizedIcon.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Models/Collection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Collection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Models/Icon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Icon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/FileSystemCollectionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/FileSystemCollectionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/IIconService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/IIconService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,14 +41,36 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Collection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Collection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemCollectionService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemCollectionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b2c3e28468b2a9ae5485968818c48fd40338a6b8ae1295f29a355225a8d238/First.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -61,7 +88,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     ".NET Launch Settings Profile.StreamDeckBuddy.API: IIS Express.executor": "Debug",
-    ".NET Launch Settings Profile.StreamDeckBuddy.API: http.executor": "Debug",
+    ".NET Launch Settings Profile.StreamDeckBuddy.API: http.executor": "Run",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -71,7 +98,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -174,7 +201,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1727474173581</updated>
-      <workItem from="1727474175931" duration="14086000" />
+      <workItem from="1727474175931" duration="27996000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -208,7 +235,31 @@
       <option name="project" value="LOCAL" />
       <updated>1727483452013</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="chore: use Guid instead of int for Ids">
+      <option name="closed" value="true" />
+      <created>1727533050646</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727533050646</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: save icon indexing  to JSON">
+      <option name="closed" value="true" />
+      <created>1727533073554</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727533073554</updated>
+    </task>
+    <task id="LOCAL-00007" summary="chore: use struct instead of Guid for Ids">
+      <option name="closed" value="true" />
+      <created>1727547498511</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727547498511</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,6 +284,9 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="feat: use DI with FileSystemIconService" />
     <MESSAGE value="feat: add initial support for StreamDeck icon packs" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add initial support for StreamDeck icon packs" />
+    <MESSAGE value="chore: use Guid instead of int for Ids" />
+    <MESSAGE value="feat: save icon indexing  to JSON" />
+    <MESSAGE value="chore: use struct instead of Guid for Ids" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: use struct instead of Guid for Ids" />
   </component>
 </project>

@@ -23,8 +23,4 @@
         <ProjectReference Include="..\StreamDeckBuddy.Services\StreamDeckBuddy.Services.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="DTOs\"/>
-    </ItemGroup>
-
 </Project>
