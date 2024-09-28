@@ -1,4 +1,7 @@
 
+using JetBrains.Annotations;
+using StreamDeckBuddy.Models.Converters;
+
 namespace StreamDeckBuddy.Services;
 
 using Microsoft.Extensions.Configuration;
@@ -46,7 +49,8 @@ public class StreamDeckIconPackIconService : IIconService
         return _icons;
     }
 
-    public Icon GetIconById(Guid id) => _icons.FirstOrDefault(i => i.Id == id);
+    [Pure]
+    public Icon? GetIconById(IconId id) => _icons.FirstOrDefault(i => i.Id == id);
 
     public void AddIcon(Icon icon)
     {
@@ -54,17 +58,16 @@ public class StreamDeckIconPackIconService : IIconService
         _icons.Add(icon);
     }
 
-    public void UpdateIcon(Guid id, Icon updatedIcon)
+    public void UpdateIcon(IconId id, Icon updatedIcon)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
         if (icon != null)
         {
-            icon.Glyph = updatedIcon.Glyph;
             icon.Label = updatedIcon.Label;
         }
     }
 
-    public void DeleteIcon(Guid id)
+    public void DeleteIcon(IconId id)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
         if (icon != null)
@@ -88,8 +91,7 @@ public class StreamDeckIconPackIconService : IIconService
                 {
                     var icons = iconDtos.Select(dto => new Icon
                     {
-                        Id = new Guid(),
-                        Glyph = dto.name,
+                        Id = Guid.NewGuid(),
                         Label = dto.name,
                         FullPath = Path.Combine(directory, "icons", dto.path) // Set the complete file path
                     }).ToList();

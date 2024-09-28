@@ -1,8 +1,15 @@
+using StreamDeckBuddy.Models.Converters;
+
 namespace StreamDeckBuddy.Services;
 
+using Microsoft.Extensions.Logging;
+using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using StreamDeckBuddy.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 public class FileSystemCollectionService : ICollectionService
 {
@@ -10,15 +17,16 @@ public class FileSystemCollectionService : ICollectionService
 
     public List<Collection> GetCollections() => _collections;
 
-    public Collection GetCollectionById(Guid id) => _collections.FirstOrDefault(c => c.Id == id);
+    [Pure]
+    public Collection? GetCollectionById(CollectionId id) => _collections.FirstOrDefault(c => c.Id == id);
 
-    public void AddCollection(Collection collection)
+    public CollectionId AddCollection(Collection collection)
     {
         collection.Id = Guid.NewGuid();
         _collections.Add(collection);
     }
 
-    public void UpdateCollection(Guid id, Collection updatedCollection)
+    public void UpdateCollection(CollectionId id, Collection updatedCollection)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
         if (collection != null)
@@ -28,7 +36,7 @@ public class FileSystemCollectionService : ICollectionService
         }
     }
 
-    public void DeleteCollection(Guid id)
+    public void DeleteCollection(CollectionId id)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
         if (collection != null)

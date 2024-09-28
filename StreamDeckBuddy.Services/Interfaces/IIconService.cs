@@ -5,10 +5,9 @@ using System.Collections.Generic;
 
 public interface IIconService
 {
-    List<Icon> GetIcons();
-    Icon GetIconById(Guid id);
+    ICollection<Icon> GetIcons();
+    Icon? GetIconById(IconId id);
     void AddIcon(Icon icon);
-    void UpdateIcon(Guid id, Icon updatedIcon);
-    void DeleteIcon(Guid id);
-    void IndexIcons(string rootPath);
+    void UpdateIcon(IconId id, Icon updatedIcon);
+    void DeleteIcon(IconId id);
 }
