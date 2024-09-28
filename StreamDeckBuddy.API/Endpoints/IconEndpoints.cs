@@ -15,7 +15,6 @@ public static class IconEndpoints
                     icon.Id,
                     icon.Glyph,
                     icon.Label,
-                    icon.CollectionId,
                     Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
                 });
                 return Results.Ok(iconFiles);
@@ -33,7 +32,6 @@ public static class IconEndpoints
                     icon.Id,
                     icon.Glyph,
                     icon.Label,
-                    icon.CollectionId,
                     Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
                 });
                 return Results.Ok(iconFiles);
@@ -49,7 +47,7 @@ public static class IconEndpoints
             .WithName("CreateIcon")
             .WithOpenApi();
 
-        endpoints.MapGet("/icons/{id}", (int id, IIconService iconService) =>
+        endpoints.MapGet("/icons/{id}", (Guid id, IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(id);
                 return icon is not null ? Results.Ok(icon) : Results.NotFound();
@@ -57,7 +55,7 @@ public static class IconEndpoints
             .WithName("GetIconById")
             .WithOpenApi();
 
-        endpoints.MapPut("/icons/{id}", (int id, Icon updatedIcon, IIconService iconService) =>
+        endpoints.MapPut("/icons/{id}", (Guid id, Icon updatedIcon, IIconService iconService) =>
             {
                 iconService.UpdateIcon(id, updatedIcon);
                 return Results.Ok(updatedIcon);
@@ -65,7 +63,7 @@ public static class IconEndpoints
             .WithName("UpdateIcon")
             .WithOpenApi();
 
-        endpoints.MapDelete("/icons/{id}", (int id, IIconService iconService) =>
+        endpoints.MapDelete("/icons/{id}", (Guid id, IIconService iconService) =>
             {
                 iconService.DeleteIcon(id);
                 return Results.NoContent();
@@ -73,7 +71,7 @@ public static class IconEndpoints
             .WithName("DeleteIcon")
             .WithOpenApi();
 
-        endpoints.MapGet("/icons/{id}/file", (int id, IIconService iconService) =>
+        endpoints.MapGet("/icons/{id}/file", (Guid id, IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(id);
                 if (icon is null || !File.Exists(icon.FullPath)) return Results.NotFound();

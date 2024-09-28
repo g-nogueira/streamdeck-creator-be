@@ -1,20 +1,19 @@
-using StreamDeckBuddy.Services.DTOs;
 
 namespace StreamDeckBuddy.Services;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using StreamDeckBuddy.Services.DTOs;
 using StreamDeckBuddy.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 public class StreamDeckIconPackIconService : IIconService
 {
     private readonly List<Icon> _icons = new();
-    private readonly string _rootPath;
+    private readonly string _jsonFilePath;
     private readonly ILogger<StreamDeckIconPackIconService> _logger;
 
     public StreamDeckIconPackIconService(IConfiguration configuration, ILogger<StreamDeckIconPackIconService> logger)
@@ -31,26 +30,25 @@ public class StreamDeckIconPackIconService : IIconService
         return _icons;
     }
 
-    public Icon GetIconById(int id) => _icons.FirstOrDefault(i => i.Id == id);
+    public Icon GetIconById(Guid id) => _icons.FirstOrDefault(i => i.Id == id);
 
     public void AddIcon(Icon icon)
     {
-        icon.Id = _icons.Count > 0 ? _icons.Max(i => i.Id) + 1 : 1;
+        icon.Id = Guid.NewGuid();
         _icons.Add(icon);
     }
 
-    public void UpdateIcon(int id, Icon updatedIcon)
+    public void UpdateIcon(Guid id, Icon updatedIcon)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
         if (icon != null)
         {
             icon.Glyph = updatedIcon.Glyph;
             icon.Label = updatedIcon.Label;
-            icon.CollectionId = updatedIcon.CollectionId;
         }
     }
 
-    public void DeleteIcon(int id)
+    public void DeleteIcon(Guid id)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
         if (icon != null)
@@ -108,9 +106,9 @@ public class StreamDeckIconPackIconService : IIconService
                 {
                     var icons = iconDtos.Select(dto => new Icon
                     {
+                        Id = new Guid(),
                         Glyph = dto.name,
                         Label = dto.name,
-                        CollectionId = 0, // Default collection ID, adjust as needed
                         FullPath = Path.Combine(directory, "icons", dto.path) // Set the complete file path
                     }).ToList();
 

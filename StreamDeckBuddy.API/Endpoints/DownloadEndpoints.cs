@@ -7,7 +7,7 @@ public static class DownloadEndpoints
 {
     public static void MapDownloadEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/download/icon/{id}", (int id, IIconService iconService) =>
+        endpoints.MapGet("/download/icon/{id}", (Guid id, IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(id);
                 if (icon is null || !File.Exists(icon.FullPath)) return Results.NotFound();
@@ -18,7 +18,7 @@ public static class DownloadEndpoints
             .WithName("DownloadIcon")
             .WithOpenApi();
 
-        endpoints.MapGet("/download/collection/{id}", async (int id, ICollectionService collectionService) =>
+        endpoints.MapGet("/download/collection/{id}", async (Guid id, ICollectionService collectionService) =>
             {
                 var collection = collectionService.GetCollectionById(id);
                 if (collection is null) return Results.NotFound();

@@ -10,15 +10,15 @@ public class FileSystemCollectionService : ICollectionService
 
     public List<Collection> GetCollections() => _collections;
 
-    public Collection GetCollectionById(int id) => _collections.FirstOrDefault(c => c.Id == id);
+    public Collection GetCollectionById(Guid id) => _collections.FirstOrDefault(c => c.Id == id);
 
     public void AddCollection(Collection collection)
     {
-        collection.Id = _collections.Count > 0 ? _collections.Max(c => c.Id) + 1 : 1;
+        collection.Id = Guid.NewGuid();
         _collections.Add(collection);
     }
 
-    public void UpdateCollection(int id, Collection updatedCollection)
+    public void UpdateCollection(Guid id, Collection updatedCollection)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
         if (collection != null)
@@ -28,7 +28,7 @@ public class FileSystemCollectionService : ICollectionService
         }
     }
 
-    public void DeleteCollection(int id)
+    public void DeleteCollection(Guid id)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
         if (collection != null)

@@ -19,7 +19,7 @@ public static class CollectionEndpoints
             .WithName("CreateCollection")
             .WithOpenApi();
 
-        endpoints.MapGet("/collections/{id}", (int id, ICollectionService collectionService) =>
+        endpoints.MapGet("/collections/{id}", (Guid id, ICollectionService collectionService) =>
             {
                 var collection = collectionService.GetCollectionById(id);
                 return collection is not null ? Results.Ok(collection) : Results.NotFound();
@@ -28,7 +28,7 @@ public static class CollectionEndpoints
             .WithOpenApi();
 
         endpoints.MapPut("/collections/{id}",
-                (int id, Collection updatedCollection, ICollectionService collectionService) =>
+                (Guid id, Collection updatedCollection, ICollectionService collectionService) =>
                 {
                     collectionService.UpdateCollection(id, updatedCollection);
                     return Results.Ok(updatedCollection);
@@ -36,7 +36,7 @@ public static class CollectionEndpoints
             .WithName("UpdateCollection")
             .WithOpenApi();
 
-        endpoints.MapDelete("/collections/{id}", (int id, ICollectionService collectionService) =>
+        endpoints.MapDelete("/collections/{id}", (Guid id, ICollectionService collectionService) =>
             {
                 collectionService.DeleteCollection(id);
                 return Results.NoContent();

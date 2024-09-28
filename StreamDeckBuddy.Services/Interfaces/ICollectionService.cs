@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public interface ICollectionService
 {
     List<Collection> GetCollections();
-    Collection GetCollectionById(int id);
+    Collection GetCollectionById(Guid id);
     void AddCollection(Collection collection);
-    void UpdateCollection(int id, Collection updatedCollection);
-    void DeleteCollection(int id);
+    void UpdateCollection(Guid id, Collection updatedCollection);
+    void DeleteCollection(Guid id);
 }
