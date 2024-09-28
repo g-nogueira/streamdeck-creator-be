@@ -16,12 +16,28 @@ public class StreamDeckIconPackIconService : IIconService
     private readonly string _jsonFilePath;
     private readonly ILogger<StreamDeckIconPackIconService> _logger;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="configuration"></param>
+    /// <param name="logger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public StreamDeckIconPackIconService(IConfiguration configuration, ILogger<StreamDeckIconPackIconService> logger)
     {
-        _rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:IconsFilePath"] ??
-                                                           throw new InvalidOperationException());
+        var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:IconsFilePath"] ?? throw new InvalidOperationException());
+        var indexFilePath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsIndexedFile"] ?? throw new InvalidOperationException());
+        _jsonFilePath = Path.Combine(indexFilePath, "indexed_icons.json");
         _logger = logger;
-        IndexIcons(_rootPath);
+
+        if (!File.Exists(_jsonFilePath))
+        {
+            IndexIcons(rootPath);
+            SaveIndexedItemsToJson();
+        }
+        else
+        {
+            LoadIndexedItemsFromJson();
+        }
     }
 
     public List<Icon> GetIcons()
@@ -57,40 +73,6 @@ public class StreamDeckIconPackIconService : IIconService
         }
     }
 
-    // public async Task IndexIconsAsync(string rootPath)
-    // {
-    //     _logger.LogInformation("Starting to index icons from {RootPath}", rootPath);
-    //     try
-    //     {
-    //         var directories = Directory.GetDirectories(rootPath, "*", SearchOption.AllDirectories);
-    //         var tasks = directories.Select(async directory =>
-    //         {
-    //             var iconsFilePath = Path.Combine(directory, "icons.json");
-    //             if (File.Exists(iconsFilePath))
-    //             {
-    //                 _logger.LogInformation("Processing icons file: {IconsFilePath}", iconsFilePath);
-    //                 var json = await File.ReadAllTextAsync(iconsFilePath);
-    //                 var icons = JsonSerializer.Deserialize<List<Icon>>(json);
-    //                 if (icons != null)
-    //                 {
-    //                     lock (_icons)
-    //                     {
-    //                         _icons.AddRange(icons);
-    //                     }
-    //                     _logger.LogInformation("Added {Count} icons from {IconsFilePath}", icons.Count, iconsFilePath);
-    //                 }
-    //             }
-    //         });
-    //
-    //         await Task.WhenAll(tasks);
-    //         _logger.LogInformation("Completed indexing icons.");
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.LogError(ex, "An error occurred while indexing icons.");
-    //     }
-    // }
-    //
     public void IndexIcons(string rootPath)
     {
         var directories = Directory.GetDirectories(rootPath, "*", SearchOption.AllDirectories);
@@ -119,6 +101,38 @@ public class StreamDeckIconPackIconService : IIconService
             }
 
             _logger.LogInformation("Completed indexing icons.");
+        }
+    }
+
+    private void SaveIndexedItemsToJson()
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(_icons);
+            File.WriteAllText(_jsonFilePath, json);
+            _logger.LogInformation("Successfully saved indexed items to {FilePath}", _jsonFilePath);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while saving indexed items to JSON file.");
+        }
+    }
+
+    private void LoadIndexedItemsFromJson()
+    {
+        try
+        {
+            var json = File.ReadAllText(_jsonFilePath);
+            var icons = JsonSerializer.Deserialize<List<Icon>>(json);
+            if (icons != null)
+            {
+                _icons.AddRange(icons);
+                _logger.LogInformation("Successfully loaded indexed items from {FilePath}", _jsonFilePath);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while loading indexed items from JSON file.");
         }
     }
 }
