@@ -1,3 +1,4 @@
+using StreamDeckBuddy.API.DTOs;
 using StreamDeckBuddy.Models;
 using StreamDeckBuddy.Services;
 
@@ -11,30 +12,37 @@ public static class IconEndpoints
     {
         endpoints.MapGet("/icons", (IIconService iconService) =>
             {
-                var icons = iconService.GetIcons().Take(500);
-                var iconFiles = icons.Select(icon => new
-                {
-                    icon.Id,
-                    icon.Label,
-                    Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
-                });
-                return Results.Ok(iconFiles);
+                return Results.Ok(iconService
+                    .GetIcons()
+                    .Take(500)
+                    .Select(icon =>
+                        new GetIconsResponse
+                        {
+                            Id = icon.Id,
+                            Label = icon.Label,
+                            Url = File.ReadAllText(icon.FullPath),
+                        }
+                    )
+                );
             })
             .WithName("GetIcons")
             .WithOpenApi();
 
         endpoints.MapGet("/icons/search", (string searchTerm, IIconService iconService) =>
             {
-                var icons = iconService.GetIcons();
-                var filteredIcons = icons.Where(i => i.Label.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-                var iconFiles = filteredIcons.Select(icon => new
-                {
-                    icon.Id,
-                    icon.Label,
-                    Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
-                });
-                return Results.Ok(iconFiles);
+                return Results.Ok(iconService
+                    .GetIcons()
+                    .Where(IconMatchesSearchTerm)
+                    .Select(icon => new
+                    {
+                        icon.Id,
+                        icon.Label,
+                        Content = File.ReadAllText(icon.FullPath) // Read SVG content as string
+                    }));
+
+                bool IconMatchesSearchTerm(Icon icon) =>
+                    icon.Label.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    icon.FullPath.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
             })
             .WithName("SearchIcons")
             .WithOpenApi();
@@ -47,15 +55,35 @@ public static class IconEndpoints
             .WithName("CreateIcon")
             .WithOpenApi();
 
-        endpoints.MapGet("/icons/{id}", (Guid id, IIconService iconService) =>
+        endpoints.MapGet("/icons/{id:guid}", (Guid id, IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(id);
-                return icon is not null ? Results.Ok(icon) : Results.NotFound();
+
+                if (icon is null) return Results.NotFound();
+
+                var fileStream = new FileStream(icon.FullPath, FileMode.Open, FileAccess.Read);
+
+                return Results.File(fileStream, GetContentType(icon.FullPath), enableRangeProcessing: true);
+
+                string GetContentType(string filePath)
+                {
+                    var extension = Path.GetExtension(filePath).ToLowerInvariant();
+                    return extension switch
+                    {
+                        ".svg" => "image/svg+xml",
+                        ".png" => "image/png",
+                        ".ico" => "image/x-icon",
+                        ".jpeg" => "image/jpeg",
+                        ".jpg" => "image/jpeg",
+                        ".gif" => "image/gif",
+                        _ => "application/octet-stream",
+                    };
+                }
             })
             .WithName("GetIconById")
             .WithOpenApi();
 
-        endpoints.MapPut("/icons/{id}", (Guid id, Icon updatedIcon, IIconService iconService) =>
+        endpoints.MapPut("/icons/{id:guid}", (Guid id, Icon updatedIcon, IIconService iconService) =>
             {
                 iconService.UpdateIcon(id, updatedIcon);
                 return Results.Ok(updatedIcon);
@@ -63,23 +91,12 @@ public static class IconEndpoints
             .WithName("UpdateIcon")
             .WithOpenApi();
 
-        endpoints.MapDelete("/icons/{id}", (Guid id, IIconService iconService) =>
+        endpoints.MapDelete("/icons/{id:guid}", (Guid id, IIconService iconService) =>
             {
                 iconService.DeleteIcon(id);
                 return Results.NoContent();
             })
             .WithName("DeleteIcon")
-            .WithOpenApi();
-
-        endpoints.MapGet("/icons/{id}/file", (Guid id, IIconService iconService) =>
-            {
-                var icon = iconService.GetIconById(id);
-                if (icon is null || !File.Exists(icon.FullPath)) return Results.NotFound();
-
-                var fileContent = File.ReadAllText(icon.FullPath); // Read SVG content as string
-                return Results.Text(fileContent, "image/svg+xml");
-            })
-            .WithName("GetIconFile")
             .WithOpenApi();
     }
 }

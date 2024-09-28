@@ -20,7 +20,7 @@ public static class CollectionEndpoints
             .WithName("AddCollection")
             .WithOpenApi();
         
-        endpoints.MapPut("/collections/{collectionId:guid}/icons", (Guid collectionId, AddIconToCollectionDto stylizedIcon, ICollectionService collectionService, IIconService iconService) =>
+        endpoints.MapPut("/collections/{collectionId:guid}/icons", (Guid collectionId, AddIconToCollectionResponse stylizedIcon, ICollectionService collectionService, IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(stylizedIcon.IconId);
                 

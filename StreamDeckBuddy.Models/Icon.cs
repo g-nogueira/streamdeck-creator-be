@@ -6,8 +6,8 @@ namespace StreamDeckBuddy.Models;
 public class Icon
 {
     public IconId Id { get; set; }
-    public required string Label { get; set; }        // Custom label for the icon
-    public required string FullPath { get; set; }     // Complete file path for the icon
+    public required string Label { get; set; }
+    public required string FullPath { get; set; }
 }
 
 [JsonConverter(typeof(IconIdJsonConverter))]

@@ -12,19 +12,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="chore: use struct instead of Guid for Ids">
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/DTOs/AddIconToCollectionDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Converters/StylizedIconIdJsonConverter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/StylizedIcon.cs" afterDir="false" />
+    <list default="true" id="d7536cbe-e306-421e-a755-e50ce4155056" name="Changes" comment="feat: update collection endpoints">
+      <change afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/DTOs/GetIconsResponse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StreamDeck Buddy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/DTOs/AddIconToCollectionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/DTOs/AddIconToCollectionResponse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/StreamDeckBuddy.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.API/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Models/Collection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Collection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Models/Icon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Models/Icon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/FileSystemCollectionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/FileSystemCollectionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/Interfaces/ICollectionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +37,10 @@
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/CollectionEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/DownloadEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/Endpoints/IconEndpoints.cs" root0="SKIP_HIGHLIGHTING" />
@@ -53,11 +49,14 @@
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Collection.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Collection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Collection.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Models/Icon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemCollectionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemCollectionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemCollectionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/FileSystemIconService.cs" root0="SKIP_HIGHLIGHTING" />
@@ -67,6 +66,8 @@
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/Interfaces/IIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Projects/StreamDeck Buddy/StreamDeckBuddy.Services/StreamDeckIconPackIconService.cs" root0="SKIP_HIGHLIGHTING" />
@@ -88,7 +89,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     ".NET Launch Settings Profile.StreamDeckBuddy.API: IIS Express.executor": "Debug",
-    ".NET Launch Settings Profile.StreamDeckBuddy.API: http.executor": "Run",
+    ".NET Launch Settings Profile.StreamDeckBuddy.API: http.executor": "Debug",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -201,7 +202,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1727474173581</updated>
-      <workItem from="1727474175931" duration="27996000" />
+      <workItem from="1727474175931" duration="32242000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -259,7 +260,31 @@
       <option name="project" value="LOCAL" />
       <updated>1727547498511</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="chore: use struct instead of Guid for Ids">
+      <option name="closed" value="true" />
+      <created>1727554562322</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727554562322</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: update collection endpoints">
+      <option name="closed" value="true" />
+      <created>1727554693566</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1727554693566</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: update collection endpoints">
+      <option name="closed" value="true" />
+      <created>1727554719122</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727554719122</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +312,7 @@
     <MESSAGE value="chore: use Guid instead of int for Ids" />
     <MESSAGE value="feat: save icon indexing  to JSON" />
     <MESSAGE value="chore: use struct instead of Guid for Ids" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: use struct instead of Guid for Ids" />
+    <MESSAGE value="feat: update collection endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update collection endpoints" />
   </component>
 </project>

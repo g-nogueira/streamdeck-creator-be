@@ -4,7 +4,7 @@ namespace StreamDeckBuddy.API.DTOs;
 
 using StreamDeckBuddy.Models;
 
-public class AddIconToCollectionDto
+public abstract class AddIconToCollectionResponse
 {
     public Guid? Id { get; set; }
     public required Guid IconId { get; set; }

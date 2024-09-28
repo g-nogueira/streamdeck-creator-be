@@ -43,6 +43,7 @@ public class StreamDeckIconPackIconService : IIconService
         }
     }
 
+    [Pure]
     public ICollection<Icon> GetIcons()
     {
         _logger.LogInformation("Returning {Count} icons", _icons.Count);
@@ -93,7 +94,7 @@ public class StreamDeckIconPackIconService : IIconService
                     {
                         Id = Guid.NewGuid(),
                         Label = dto.name,
-                        FullPath = Path.Combine(directory, "icons", dto.path) // Set the complete file path
+                        FullPath = Path.Combine(directory, "icons", dto.path)
                     }).ToList();
 
                     _icons.AddRange(icons);
