@@ -1,17 +1,11 @@
-
+using System.Text.Json;
 using JetBrains.Annotations;
-using StreamDeckBuddy.Models.Converters;
-
-namespace StreamDeckBuddy.Services;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using StreamDeckBuddy.Services.DTOs;
 using StreamDeckBuddy.Models;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
+using StreamDeckBuddy.Services.DTOs;
+
+namespace StreamDeckBuddy.Services;
 
 public class StreamDeckIconPackIconService : IIconService
 {
@@ -20,15 +14,16 @@ public class StreamDeckIconPackIconService : IIconService
     private readonly ILogger<StreamDeckIconPackIconService> _logger;
 
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="configuration"></param>
     /// <param name="logger"></param>
     /// <exception cref="InvalidOperationException"></exception>
     public StreamDeckIconPackIconService(IConfiguration configuration, ILogger<StreamDeckIconPackIconService> logger)
     {
-        var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsPath"] ?? throw new InvalidOperationException());
-        var indexFilePath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsIndexedFilePath"] ?? throw new InvalidOperationException());
+        var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsPath"] ??
+                                                              throw new InvalidOperationException());
+        var indexFilePath = Environment.ExpandEnvironmentVariables(
+            configuration["DataPaths:StreamDeckIconsIndexedFilePath"] ?? throw new InvalidOperationException());
         _jsonFilePath = Path.Combine(indexFilePath, "indexed_icons.json");
         _logger = logger;
 
@@ -51,7 +46,10 @@ public class StreamDeckIconPackIconService : IIconService
     }
 
     [Pure]
-    public Icon? GetIconById(IconId id) => _icons.FirstOrDefault(i => i.Id == id);
+    public Icon? GetIconById(IconId id)
+    {
+        return _icons.FirstOrDefault(i => i.Id == id);
+    }
 
     public void AddIcon(Icon icon)
     {
@@ -62,19 +60,13 @@ public class StreamDeckIconPackIconService : IIconService
     public void UpdateIcon(IconId id, Icon updatedIcon)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
-        if (icon != null)
-        {
-            icon.Label = updatedIcon.Label;
-        }
+        if (icon != null) icon.Label = updatedIcon.Label;
     }
 
     public void DeleteIcon(IconId id)
     {
         var icon = _icons.FirstOrDefault(i => i.Id == id);
-        if (icon != null)
-        {
-            _icons.Remove(icon);
-        }
+        if (icon != null) _icons.Remove(icon);
     }
 
     public void IndexIcons(string rootPath)
@@ -112,10 +104,7 @@ public class StreamDeckIconPackIconService : IIconService
         try
         {
             var directory = Path.GetDirectoryName(_jsonFilePath);
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
             var json = JsonSerializer.Serialize(_icons);
             File.WriteAllText(_jsonFilePath, json);

@@ -1,48 +1,44 @@
-using StreamDeckBuddy.Models.Converters;
-
-namespace StreamDeckBuddy.Services;
-
-using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using StreamDeckBuddy.Models;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
+
+namespace StreamDeckBuddy.Services;
 
 public class FileSystemCollectionService : ICollectionService
 {
     private readonly List<Collection> _collections = [];
     private readonly string _jsonFilePath;
     private readonly ILogger<FileSystemCollectionService> _logger;
+
     public FileSystemCollectionService(IConfiguration configuration, ILogger<FileSystemCollectionService> logger)
     {
-        var collectionsPath = configuration["DataPaths:CollectionsFilePath"] ?? throw new InvalidOperationException("Collections file path not configured.");
+        var collectionsPath = configuration["DataPaths:CollectionsFilePath"] ??
+                              throw new InvalidOperationException("Collections file path not configured.");
         _jsonFilePath = Path.Combine(collectionsPath, "collections.json");
         _logger = logger;
 
         if (File.Exists(_jsonFilePath))
-        {
             LoadCollectionsFromJson();
-        }
         else
-        {
             SaveCollectionsToJson();
-        }
     }
 
     public List<Collection> GetCollections() => _collections;
 
     [Pure]
-    public Collection? GetCollectionById(CollectionId id) => _collections.FirstOrDefault(c => c.Id == id);
+    public Collection? GetCollectionById(CollectionId id)
+    {
+        return _collections.FirstOrDefault(c => c.Id == id);
+    }
 
     public CollectionId AddCollection(Collection collection)
     {
         collection.Id = Guid.NewGuid();
         _collections.Add(collection);
         SaveCollectionsToJson();
-        
+
         return collection.Id;
     }
 
@@ -69,9 +65,9 @@ public class FileSystemCollectionService : ICollectionService
     {
         var collection = _collections.FirstOrDefault(c => c.Id == collectionId);
         if (collection == null) return;
-        
+
         var existingIcon = collection.Icons.FirstOrDefault(i => i.Id == icon.Id);
-        
+
         // Upsert the icon
         if (icon.Id != new StylizedIconId(Guid.Empty) && existingIcon != null)
         {
@@ -81,26 +77,25 @@ public class FileSystemCollectionService : ICollectionService
             existingIcon.LabelTypeface = icon.LabelTypeface;
             existingIcon.GlyphColor = icon.GlyphColor;
             existingIcon.BackgroundColor = icon.BackgroundColor;
-            
+
             collection.Icons.RemoveAt(collection.Icons.IndexOf(existingIcon));
             collection.Icons.Add(existingIcon);
-        } else {
+        }
+        else
+        {
             icon.Id = new StylizedIconId(Guid.NewGuid());
             collection.Icons.Add(icon);
         }
 
         SaveCollectionsToJson();
     }
-    
+
     private void SaveCollectionsToJson()
     {
         try
         {
             var directory = Path.GetDirectoryName(_jsonFilePath);
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
             var json = JsonSerializer.Serialize(_collections);
             File.WriteAllText(_jsonFilePath, json);

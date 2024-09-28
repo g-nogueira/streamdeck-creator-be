@@ -16,7 +16,9 @@ public struct IconId(Guid value) : IEquatable<IconId>
     public Guid Value { get; } = value;
 
     public override string ToString() => Value.ToString();
+
     public static implicit operator Guid(IconId iconId) => iconId.Value;
+
     public static implicit operator IconId(Guid value) => new(value);
 
     public override bool Equals(object? obj) => obj is IconId other && Equals(other);
@@ -26,5 +28,6 @@ public struct IconId(Guid value) : IEquatable<IconId>
     public override int GetHashCode() => Value.GetHashCode();
 
     public static bool operator ==(IconId left, IconId right) => left.Equals(right);
+
     public static bool operator !=(IconId left, IconId right) => !(left == right);
 }

@@ -1,8 +1,7 @@
-namespace StreamDeckBuddy.Models.Converters;
-
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+namespace StreamDeckBuddy.Models.Converters;
 
 public class IconIdJsonConverter : JsonConverter<IconId>
 {

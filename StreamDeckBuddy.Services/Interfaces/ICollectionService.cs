@@ -1,7 +1,6 @@
-namespace StreamDeckBuddy.Services;
-
 using StreamDeckBuddy.Models;
-using System.Collections.Generic;
+
+namespace StreamDeckBuddy.Services;
 
 public interface ICollectionService
 {

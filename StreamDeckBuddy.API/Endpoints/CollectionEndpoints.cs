@@ -1,8 +1,8 @@
-namespace StreamDeckBuddy.API.Endpoints;
-
 using StreamDeckBuddy.API.DTOs;
 using StreamDeckBuddy.Models;
 using StreamDeckBuddy.Services;
+
+namespace StreamDeckBuddy.API.Endpoints;
 
 public static class CollectionEndpoints
 {
@@ -19,16 +19,18 @@ public static class CollectionEndpoints
             })
             .WithName("AddCollection")
             .WithOpenApi();
-        
-        endpoints.MapPut("/collections/{collectionId:guid}/icons", (Guid collectionId, AddIconToCollectionResponse stylizedIcon, ICollectionService collectionService, IIconService iconService) =>
+
+        endpoints.MapPut("/collections/{collectionId:guid}/icons", (Guid collectionId,
+                AddIconToCollectionResponse stylizedIcon, ICollectionService collectionService,
+                IIconService iconService) =>
             {
                 var icon = iconService.GetIconById(stylizedIcon.IconId);
-                
+
                 if (icon is null)
                     return Results.NotFound($"Icon with ID {stylizedIcon.IconId} not found");
 
                 var domain = stylizedIcon.ToDomain(icon);
-                
+
                 collectionService.AddIconToCollection(collectionId, domain);
                 return Results.Created($"/collections/{collectionId}/icons/{stylizedIcon.Id}", stylizedIcon);
             })

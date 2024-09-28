@@ -4,8 +4,6 @@ using StreamDeckBuddy.Services;
 
 namespace StreamDeckBuddy.API.Endpoints;
 
-using System.Linq;
-
 public static class IconEndpoints
 {
     public static void MapIconEndpoints(this IEndpointRouteBuilder endpoints)
@@ -20,7 +18,7 @@ public static class IconEndpoints
                         {
                             Id = icon.Id,
                             Label = icon.Label,
-                            Url = File.ReadAllText(icon.FullPath),
+                            Url = File.ReadAllText(icon.FullPath)
                         }
                     )
                 );
@@ -76,7 +74,7 @@ public static class IconEndpoints
                         ".jpeg" => "image/jpeg",
                         ".jpg" => "image/jpeg",
                         ".gif" => "image/gif",
-                        _ => "application/octet-stream",
+                        _ => "application/octet-stream"
                     };
                 }
             })

@@ -1,8 +1,7 @@
 using JetBrains.Annotations;
+using StreamDeckBuddy.Models;
 
 namespace StreamDeckBuddy.API.DTOs;
-
-using StreamDeckBuddy.Models;
 
 public abstract class AddIconToCollectionResponse
 {
@@ -14,7 +13,7 @@ public abstract class AddIconToCollectionResponse
     public required string LabelTypeface { get; set; }
     public required string GlyphColor { get; set; }
     public required string BackgroundColor { get; set; }
-    
+
     [Pure]
     public StylizedIcon ToDomain(Icon icon)
     {
@@ -34,7 +33,7 @@ public abstract class AddIconToCollectionResponse
         };
 
         ((Icon)stylizedIcon).Id = icon.Id;
-        
+
         return stylizedIcon;
     }
 }
