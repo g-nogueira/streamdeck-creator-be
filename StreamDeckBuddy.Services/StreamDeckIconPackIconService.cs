@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using StreamDeckBuddy.Models;
 using StreamDeckBuddy.Services.DTOs;
+using StreamDeckBuddy.Services.Interfaces;
 
 namespace StreamDeckBuddy.Services;
 

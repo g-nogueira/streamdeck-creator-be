@@ -14,6 +14,9 @@ public class Icon
 public struct IconId(Guid value) : IEquatable<IconId>
 {
     public Guid Value { get; } = value;
+    public static IconId Empty { get; } = new(Guid.Empty);
+    
+    public static IconId New() => new(Guid.NewGuid());
 
     public override string ToString() => Value.ToString();
 

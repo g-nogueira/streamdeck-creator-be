@@ -1,5 +1,6 @@
 using StreamDeckBuddy.API.Endpoints;
 using StreamDeckBuddy.Services;
+using StreamDeckBuddy.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IIconService, StreamDeckIconPackIconService>();
-builder.Services.AddSingleton<ICollectionService, FileSystemCollectionService>();
+builder.Services.AddSingleton<IUserIconCollectionService, FileSystemUserIconCollectionService>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithOrigins("http://localhost:")
+            .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+    });
+});
 
 var app = builder.Build();
 
@@ -19,9 +30,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
-app.MapIconEndpoints();
-app.MapCollectionEndpoints();
+app.MapGroup("/user-icon-collections")
+    .MapUserIconCollectionEndpoints();
+
+app.MapGroup("/icons")
+    .MapIconEndpoints();
+
 app.MapDownloadEndpoints();
 
 app.Run();

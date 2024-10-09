@@ -6,13 +6,13 @@ using StreamDeckBuddy.Models;
 
 namespace StreamDeckBuddy.Services;
 
-public class FileSystemCollectionService : ICollectionService
+public class FileSystemUserIconCollectionService : IUserIconCollectionService
 {
-    private readonly List<Collection> _collections = [];
+    private readonly List<UserIconCollection> _collections = [];
     private readonly string _jsonFilePath;
-    private readonly ILogger<FileSystemCollectionService> _logger;
+    private readonly ILogger<FileSystemUserIconCollectionService> _logger;
 
-    public FileSystemCollectionService(IConfiguration configuration, ILogger<FileSystemCollectionService> logger)
+    public FileSystemUserIconCollectionService(IConfiguration configuration, ILogger<FileSystemUserIconCollectionService> logger)
     {
         var collectionsPath = configuration["DataPaths:CollectionsFilePath"] ??
                               throw new InvalidOperationException("Collections file path not configured.");
@@ -25,65 +25,89 @@ public class FileSystemCollectionService : ICollectionService
             SaveCollectionsToJson();
     }
 
-    public List<Collection> GetCollections() => _collections;
+    public IEnumerable<UserIconCollection> GetList() => _collections;
 
     [Pure]
-    public Collection? GetCollectionById(CollectionId id)
+    public UserIconCollection? GetById(UserIconCollectionId id)
     {
         return _collections.FirstOrDefault(c => c.Id == id);
     }
 
-    public CollectionId AddCollection(Collection collection)
+    public UserIconCollectionId Add(UserIconCollection userIconCollection)
     {
-        collection.Id = Guid.NewGuid();
-        _collections.Add(collection);
+        userIconCollection.Id = Guid.NewGuid();
+        userIconCollection.Icons = userIconCollection.Icons.Select(icon =>
+        {
+            if (icon.Id == UserIconId.Empty)
+                icon.Id = UserIconId.New();
+            return icon;
+        }).ToList();
+
+        _collections.Add(userIconCollection);
         SaveCollectionsToJson();
 
-        return collection.Id;
+        return userIconCollection.Id;
     }
 
-    public void UpdateCollection(CollectionId id, Collection updatedCollection)
+    public void UpdateCollection(UserIconCollectionId id, UserIconCollection updatedUserIconCollection)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
-        if (collection == null) return;
+        
+        // TODO: Throw CollectionNotFoundException if collection is null
+        if (collection == null)
+            throw new CollectionNotFoundException(id);
 
-        collection.Name = updatedCollection.Name;
-        collection.Icons = updatedCollection.Icons;
+        collection.Name = updatedUserIconCollection.Name;
+        collection.Icons = updatedUserIconCollection.Icons.Select(icon =>
+        {
+            if (icon.Id == UserIconId.Empty)
+                icon.Id = UserIconId.New();
+            return icon;
+        }).ToList();
+
         SaveCollectionsToJson();
     }
 
-    public void DeleteCollection(CollectionId id)
+    public void DeleteCollection(UserIconCollectionId id)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
-        if (collection == null) return;
+        if (collection == null)
+            throw new CollectionNotFoundException(id);
 
         _collections.Remove(collection);
         SaveCollectionsToJson();
     }
 
-    public void AddIconToCollection(CollectionId collectionId, StylizedIcon icon)
+    public void AddIconToCollection(UserIconCollectionId userIconCollectionId, UserIcon icon)
     {
-        var collection = _collections.FirstOrDefault(c => c.Id == collectionId);
-        if (collection == null) return;
+        var collection = _collections.FirstOrDefault(c => c.Id == userIconCollectionId);
+        if (collection == null)
+            throw new CollectionNotFoundException(userIconCollectionId);
 
         var existingIcon = collection.Icons.FirstOrDefault(i => i.Id == icon.Id);
 
         // Upsert the icon
-        if (icon.Id != new StylizedIconId(Guid.Empty) && existingIcon != null)
+        if (icon.Id != UserIconId.Empty && existingIcon != null)
         {
-            existingIcon.LabelText = icon.LabelText;
+            existingIcon.Label = icon.Label;
             existingIcon.LabelVisible = icon.LabelVisible;
             existingIcon.LabelColor = icon.LabelColor;
             existingIcon.LabelTypeface = icon.LabelTypeface;
             existingIcon.GlyphColor = icon.GlyphColor;
             existingIcon.BackgroundColor = icon.BackgroundColor;
+            existingIcon.IconScale = icon.IconScale;
+            existingIcon.ImgX = icon.ImgX;
+            existingIcon.ImgY = icon.ImgY;
+            existingIcon.LabelX = icon.LabelX;
+            existingIcon.LabelY = icon.LabelY;
+            existingIcon.PngData = icon.PngData;
 
             collection.Icons.RemoveAt(collection.Icons.IndexOf(existingIcon));
             collection.Icons.Add(existingIcon);
         }
         else
         {
-            icon.Id = new StylizedIconId(Guid.NewGuid());
+            icon.Id = UserIconId.New();
             collection.Icons.Add(icon);
         }
 
@@ -112,7 +136,7 @@ public class FileSystemCollectionService : ICollectionService
         try
         {
             var json = File.ReadAllText(_jsonFilePath);
-            var collections = JsonSerializer.Deserialize<List<Collection>>(json);
+            var collections = JsonSerializer.Deserialize<List<UserIconCollection>>(json);
             if (collections == null) return;
 
             _collections.AddRange(collections);
@@ -124,3 +148,5 @@ public class FileSystemCollectionService : ICollectionService
         }
     }
 }
+
+public class CollectionNotFoundException(UserIconCollectionId id) : Exception($"Collection with ID {id} not found.");
