@@ -7,7 +7,7 @@ public class UpdateCollectionRequestDto
     public UserIconCollectionId Id { get; set; }
     public string? Name { get; set; }
     public List<StylizedIconDto> Icons { get; set; } = [];
-    
+
     public class StylizedIconDto
     {
         public UserIconId Id { get; set; }
@@ -23,9 +23,45 @@ public class UpdateCollectionRequestDto
         public int ImgY { get; set; }
         public int LabelX { get; set; }
         public int LabelY { get; set; }
+
+        public IconGradientDto? Gradient { get; set; }
         public string? PngData { get; set; }
+
+        public class IconGradientDto
+        {
+            public List<IconGradientStopDto> Stops { get; set; } = [];
+            public string? Type { get; set; }
+            public double Angle { get; set; }
+            public required string CssStyle { get; set; }
+            
+            public UserIconGradient ToDomain()
+            {
+                return new UserIconGradient
+                {
+                    Stops = Stops.Select(s => s.ToDomain()).ToList(),
+                    Type = Type ?? throw new ArgumentNullException(nameof(Type)),
+                    Angle = Angle,
+                    CssStyle = CssStyle
+                };
+            }
+        }
+
+        public class IconGradientStopDto
+        {
+            public double Position { get; set; }
+            public string? Color { get; set; }
+            
+            public IconGradientStop ToDomain()
+            {
+                return new IconGradientStop
+                {
+                    Position = Position,
+                    Color = Color ?? throw new ArgumentNullException(nameof(Color))
+                };
+            }
+        }
     }
-    
+
     public UserIconCollection ToDomain()
     {
         return new UserIconCollection
@@ -47,7 +83,8 @@ public class UpdateCollectionRequestDto
                 ImgY = i.ImgY,
                 LabelX = i.LabelX,
                 LabelY = i.LabelY,
-                PngData = i.PngData ?? throw new ArgumentNullException(nameof(i.PngData))
+                PngData = i.PngData ?? throw new ArgumentNullException(nameof(i.PngData)),
+                Gradient = i.Gradient?.ToDomain()
             }).ToList()
         };
     }

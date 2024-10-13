@@ -40,8 +40,8 @@ public static class UserIconCollectionEndpoints
                         return Results.BadRequest("Collection ID must not be empty Guid");
                     }
 
-                    collectionService.UpdateCollection(id, updatedCollection.ToDomain());
-                    return Results.Ok(updatedCollection);
+                    var result = collectionService.UpdateCollection(id, updatedCollection.ToDomain());
+                    return Results.Ok(result);
                 })
             .WithName("UpdateUserCollection")
             .WithOpenApi();

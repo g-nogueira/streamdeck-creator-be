@@ -24,7 +24,22 @@ public class UserIcon
     public int LabelX { get; set; }
     public int LabelY { get; set; }
     
+    public UserIconGradient? Gradient { get; set; }
     public required string PngData { get; set; }
+}
+
+public class UserIconGradient
+{
+    public List<IconGradientStop> Stops { get; set; } = [];
+    public required string Type { get; set; }
+    public double Angle { get; set; }
+    public required string CssStyle { get; set; }
+}
+
+public class IconGradientStop
+{
+    public double Position { get; set; }
+    public required string Color { get; set; }
 }
 
 [JsonConverter(typeof(UserIconIdJsonConverter))]

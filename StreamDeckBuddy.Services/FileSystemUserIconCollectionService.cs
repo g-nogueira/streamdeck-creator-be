@@ -49,7 +49,7 @@ public class FileSystemUserIconCollectionService : IUserIconCollectionService
         return userIconCollection.Id;
     }
 
-    public void UpdateCollection(UserIconCollectionId id, UserIconCollection updatedUserIconCollection)
+    public UserIconCollection UpdateCollection(UserIconCollectionId id, UserIconCollection updatedUserIconCollection)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == id);
         
@@ -66,6 +66,8 @@ public class FileSystemUserIconCollectionService : IUserIconCollectionService
         }).ToList();
 
         SaveCollectionsToJson();
+
+        return collection;
     }
 
     public void DeleteCollection(UserIconCollectionId id)
