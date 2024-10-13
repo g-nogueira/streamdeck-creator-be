@@ -24,6 +24,7 @@ public class UserIcon
     public int LabelX { get; set; }
     public int LabelY { get; set; }
     
+    public bool UseGradient { get; set; }
     public UserIconGradient? Gradient { get; set; }
     public required string PngData { get; set; }
 }

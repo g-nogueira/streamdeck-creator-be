@@ -24,6 +24,7 @@ public class UpdateCollectionRequestDto
         public int LabelX { get; set; }
         public int LabelY { get; set; }
 
+        public bool UseGradient { get; set; }
         public IconGradientDto? Gradient { get; set; }
         public string? PngData { get; set; }
 
@@ -84,6 +85,7 @@ public class UpdateCollectionRequestDto
                 LabelX = i.LabelX,
                 LabelY = i.LabelY,
                 PngData = i.PngData ?? throw new ArgumentNullException(nameof(i.PngData)),
+                UseGradient = i.UseGradient,
                 Gradient = i.Gradient?.ToDomain()
             }).ToList()
         };
