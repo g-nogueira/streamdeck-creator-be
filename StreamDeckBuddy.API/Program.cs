@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins("http://localhost:")
+            // .WithOrigins("http://localhost:")
             .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
     });
 });
@@ -27,10 +27,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
 app.UseCors();
+app.UseExceptionHandler(exceptionHandlerApp
+    => exceptionHandlerApp.Run(async context => await Results.Problem().ExecuteAsync(context)));
+
+app.Map("/error",
+    () => { throw new InvalidOperationException("An Error Occurred... Check the logs for more information."); });
 
 app.MapGroup("/user-icon-collections")
     .MapUserIconCollectionEndpoints();

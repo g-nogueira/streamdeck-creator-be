@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using StreamDeckBuddy.Models;
+using StreamDeckBuddy.Models.Exceptions;
 using StreamDeckBuddy.Services.DTOs;
 using StreamDeckBuddy.Services.Interfaces;
 
@@ -12,6 +13,7 @@ public class StreamDeckIconPackIconService : IIconService
 {
     private readonly List<Icon> _icons = [];
     private readonly string _jsonFilePath;
+    private readonly IConfiguration _configuration;
     private readonly ILogger<StreamDeckIconPackIconService> _logger;
 
     /// <summary>
@@ -21,12 +23,14 @@ public class StreamDeckIconPackIconService : IIconService
     /// <exception cref="InvalidOperationException"></exception>
     public StreamDeckIconPackIconService(IConfiguration configuration, ILogger<StreamDeckIconPackIconService> logger)
     {
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
         var rootPath = Environment.ExpandEnvironmentVariables(configuration["DataPaths:StreamDeckIconsPath"] ??
-                                                              throw new InvalidOperationException());
+                                                              throw new ConfigurationNotFoundException("DataPaths:StreamDeckIconsPath"));
         var indexFilePath = Environment.ExpandEnvironmentVariables(
-            configuration["DataPaths:StreamDeckIconsIndexedFilePath"] ?? throw new InvalidOperationException());
+            configuration["DataPaths:StreamDeckIconsIndexedFilePath"] ?? throw new ConfigurationNotFoundException("DataPaths:StreamDeckIconsIndexedFilePath"));
         _jsonFilePath = Path.Combine(indexFilePath, "indexed_icons.json");
-        _logger = logger;
 
         if (!File.Exists(_jsonFilePath))
         {

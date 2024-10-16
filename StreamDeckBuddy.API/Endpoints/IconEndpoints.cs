@@ -1,6 +1,6 @@
 using StreamDeckBuddy.API.DTOs;
 using StreamDeckBuddy.Models;
-using StreamDeckBuddy.Services;
+using StreamDeckBuddy.Models.Exceptions;
 using StreamDeckBuddy.Services.Interfaces;
 
 namespace StreamDeckBuddy.API.Endpoints;
@@ -48,10 +48,17 @@ public static class IconEndpoints
 
                 if (icon is null) return Results.NotFound();
 
-                var fileStream = new FileStream(icon.FullPath, FileMode.Open, FileAccess.Read);
+                try
+                {
+                    var fileStream = new FileStream(icon.FullPath, FileMode.Open, FileAccess.Read);
 
-                return Results.File(fileStream, GetContentType(icon.FullPath), enableRangeProcessing: true);
-
+                    return Results.File(fileStream, GetContentType(icon.FullPath), enableRangeProcessing: true);
+                }
+                catch (FileNotFoundException)
+                {
+                    throw new StreamDeckIconFileNotFoundException(icon.FullPath);
+                }
+                
                 string GetContentType(string filePath)
                 {
                     var extension = Path.GetExtension(filePath).ToLowerInvariant();
