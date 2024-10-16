@@ -21,6 +21,8 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2024.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0-rc.2.24473.5" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0-rc.2.24473.5" />
     </ItemGroup>
 
 </Project>

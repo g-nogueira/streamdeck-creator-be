@@ -4,3 +4,8 @@
     build:
       context: .
       dockerfile: StreamDeckBuddy.API/Dockerfile
+    ports:
+      - "5199:8080"
+    volumes:
+      - C:\Users\gutor\AppData\Roaming\Elgato\StreamDeck\IconPacks:/streamdeckicons
+      - C:\tmp\StreamDeckBuddy:/data
