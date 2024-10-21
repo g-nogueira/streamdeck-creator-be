@@ -25,6 +25,14 @@ public static class UserIconCollectionEndpoints
             .WithName("AddUserCollection")
             .WithOpenApi();
 
+        group.MapPost("/{id:guid}/icons", (Guid id, UpdateCollectionRequestDto.StylizedIconDto icon, IUserIconCollectionService collectionService) =>
+            {
+                var iconId = collectionService.AddIconToCollection(id, icon.ToDomain());
+                return Results.Created($"/collections/{id}/icons/{icon.Id}", iconId);
+            })
+            .WithName("AddIconToUserCollection")
+            .WithOpenApi();
+
         group.MapGet("/{id:guid}", (Guid id, IUserIconCollectionService collectionService) =>
             {
                 var collection = collectionService.GetById(id);

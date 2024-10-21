@@ -80,7 +80,7 @@ public class FileSystemUserIconCollectionService : IUserIconCollectionService
         SaveCollectionsToJson();
     }
 
-    public void AddIconToCollection(UserIconCollectionId userIconCollectionId, UserIcon icon)
+    public UserIconId AddIconToCollection(UserIconCollectionId userIconCollectionId, UserIcon icon)
     {
         var collection = _collections.FirstOrDefault(c => c.Id == userIconCollectionId);
         if (collection == null)
@@ -114,6 +114,7 @@ public class FileSystemUserIconCollectionService : IUserIconCollectionService
         }
 
         SaveCollectionsToJson();
+        return icon.Id;
     }
 
     private void SaveCollectionsToJson()

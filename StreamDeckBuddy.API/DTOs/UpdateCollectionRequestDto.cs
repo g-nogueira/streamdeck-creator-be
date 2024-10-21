@@ -61,6 +61,29 @@ public class UpdateCollectionRequestDto
                 };
             }
         }
+
+        public UserIcon ToDomain()
+        {
+            return new UserIcon
+            {
+                Id = Id,
+                IconId = OriginalIconId,
+                Label = Label,
+                LabelVisible = LabelVisible ?? true,
+                LabelColor = LabelColor ?? throw new ArgumentNullException(nameof(LabelColor)),
+                LabelTypeface = LabelTypeface ?? throw new ArgumentNullException(nameof(LabelTypeface)),
+                GlyphColor = GlyphColor ?? throw new ArgumentNullException(nameof(GlyphColor)),
+                BackgroundColor = BackgroundColor ?? throw new ArgumentNullException(nameof(BackgroundColor)),
+                IconScale = IconScale,
+                ImgX = ImgX,
+                ImgY = ImgY,
+                LabelX = LabelX,
+                LabelY = LabelY,
+                PngData = PngData ?? throw new ArgumentNullException(nameof(PngData)),
+                UseGradient = UseGradient,
+                Gradient = Gradient?.ToDomain()
+            };
+        }
     }
 
     public UserIconCollection ToDomain()
@@ -69,25 +92,7 @@ public class UpdateCollectionRequestDto
         {
             Id = Id,
             Name = Name,
-            Icons = Icons.Select(i => new UserIcon
-            {
-                Id = i.Id,
-                IconId = i.OriginalIconId,
-                Label = i.Label,
-                LabelVisible = i.LabelVisible ?? true,
-                LabelColor = i.LabelColor ?? throw new ArgumentNullException(nameof(i.LabelColor)),
-                LabelTypeface = i.LabelTypeface ?? throw new ArgumentNullException(nameof(i.LabelTypeface)),
-                GlyphColor = i.GlyphColor ?? throw new ArgumentNullException(nameof(i.GlyphColor)),
-                BackgroundColor = i.BackgroundColor ?? throw new ArgumentNullException(nameof(i.BackgroundColor)),
-                IconScale = i.IconScale,
-                ImgX = i.ImgX,
-                ImgY = i.ImgY,
-                LabelX = i.LabelX,
-                LabelY = i.LabelY,
-                PngData = i.PngData ?? throw new ArgumentNullException(nameof(i.PngData)),
-                UseGradient = i.UseGradient,
-                Gradient = i.Gradient?.ToDomain()
-            }).ToList()
+            Icons = Icons.Select(i => i.ToDomain()).ToList()
         };
     }
 }
