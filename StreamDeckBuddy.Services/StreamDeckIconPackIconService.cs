@@ -91,7 +91,8 @@ public class StreamDeckIconPackIconService : IIconService
                     {
                         Id = Guid.NewGuid(),
                         Label = dto.name,
-                        FullPath = Path.Combine(directory, "icons", dto.path)
+                        FullPath = Path.Combine(directory, "icons", dto.path),
+                        Origin = IconOrigin.StreamDeckIconPack
                     }).ToList();
 
                     _icons.AddRange(icons);

@@ -15,8 +15,10 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyMethod()
             .AllowAnyHeader()
-            // .WithOrigins("http://localhost:")
-            .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+            .AllowAnyOrigin();
+        // TODO: Improve CORS handling
+        // .WithOrigins("http://localhost:")
+        // .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost" || new Uri(origin).Host == "127.0.0.1");
     });
 });
 

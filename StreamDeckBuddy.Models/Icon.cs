@@ -8,10 +8,11 @@ public class Icon
     public IconId Id { get; set; }
     public required string Label { get; set; }
     public required string FullPath { get; set; }
+    public required IconOrigin Origin { get; set; }
 }
 
 [JsonConverter(typeof(IconIdJsonConverter))]
-public struct IconId(Guid value) : IEquatable<IconId>
+public readonly struct IconId(Guid value) : IEquatable<IconId>
 {
     public Guid Value { get; } = value;
     public static IconId Empty { get; } = new(Guid.Empty);
@@ -33,4 +34,25 @@ public struct IconId(Guid value) : IEquatable<IconId>
     public static bool operator ==(IconId left, IconId right) => left.Equals(right);
 
     public static bool operator !=(IconId left, IconId right) => !(left == right);
+}
+
+[JsonConverter(typeof(IconOriginJsonConverter))]
+public readonly struct IconOrigin(string value) : IEquatable<IconOrigin>
+{
+    public static IconOrigin StreamDeckIconPack { get; } = new("streamdeck");
+    public static IconOrigin Mdi { get; } = new("mdi");
+    
+    public string Value { get; } = value;
+
+    public override string ToString() => Value;
+
+    public override bool Equals(object? obj) => obj is IconOrigin other && Equals(other);
+
+    public bool Equals(IconOrigin other) => Value == other.Value;
+
+    public override int GetHashCode() => Value.GetHashCode();
+
+    public static bool operator ==(IconOrigin left, IconOrigin right) => left.Equals(right);
+
+    public static bool operator !=(IconOrigin left, IconOrigin right) => !(left == right);
 }

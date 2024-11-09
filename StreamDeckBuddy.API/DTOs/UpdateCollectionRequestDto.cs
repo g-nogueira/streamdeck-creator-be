@@ -6,9 +6,9 @@ public class UpdateCollectionRequestDto
 {
     public UserIconCollectionId Id { get; set; }
     public string? Name { get; set; }
-    public List<StylizedIconDto> Icons { get; set; } = [];
+    public List<UserIconDto> Icons { get; set; } = [];
 
-    public class StylizedIconDto
+    public class UserIconDto
     {
         public UserIconId Id { get; set; }
         public IconId OriginalIconId { get; set; }
@@ -27,7 +27,9 @@ public class UpdateCollectionRequestDto
         public bool UseGradient { get; set; }
         public IconGradientDto? Gradient { get; set; }
         public string? PngData { get; set; }
-
+        
+        public required IconOrigin Origin { get; set; }
+        
         public class IconGradientDto
         {
             public List<IconGradientStopDto> Stops { get; set; } = [];
@@ -81,7 +83,8 @@ public class UpdateCollectionRequestDto
                 LabelY = LabelY,
                 PngData = PngData ?? throw new ArgumentNullException(nameof(PngData)),
                 UseGradient = UseGradient,
-                Gradient = Gradient?.ToDomain()
+                Gradient = Gradient?.ToDomain(),
+                Origin = Origin
             };
         }
     }

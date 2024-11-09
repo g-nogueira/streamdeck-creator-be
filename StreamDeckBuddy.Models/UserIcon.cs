@@ -27,6 +27,8 @@ public class UserIcon
     public bool UseGradient { get; set; }
     public UserIconGradient? Gradient { get; set; }
     public required string PngData { get; set; }
+    
+    public required IconOrigin Origin { get; set; }
 }
 
 public class UserIconGradient
